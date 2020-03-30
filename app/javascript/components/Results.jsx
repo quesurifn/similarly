@@ -16,8 +16,7 @@ class Results extends React.PureComponent {
     }
 
     render() {
-        const parsedResults = JSON.parse(this.props.results)
-        console.log(parsedResults)
+        console.log(this.props.results)
 
         return (
             <Grid className={"results"}>

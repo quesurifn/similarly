@@ -18,8 +18,6 @@ class Home extends React.PureComponent {
         this.toggle = this.toggle.bind(this)
     }
 
-
-
     handleResultSelect = (e, { result }) => this.setState({ final: result.title, value: result.title})
 
     handleSearchChange = async (e, { value })  => {
@@ -36,6 +34,7 @@ class Home extends React.PureComponent {
 
     componentDidMount() {
         const queryParams = window.location.search
+        console.log(queryParams)
         if(queryParams.indexOf('oops') > -1) {
             this.toggle()
         }
@@ -43,7 +42,7 @@ class Home extends React.PureComponent {
 
     render() {
 
-        const { isLoading, value, results, final } = this.state
+        const { isLoading, value, results, final, modal } = this.state
         console.log(this.state)
         return (
             <div className={"fullscreen flex"}>
@@ -70,7 +69,7 @@ class Home extends React.PureComponent {
 
 
                 <Modal
-                    open={this.toggle}
+                    open={modal}
                     onClose={this.toggle}
                     closeOnEscape={this.toggle}
                     closeOnDimmerClick={this.toggle}
@@ -80,7 +79,7 @@ class Home extends React.PureComponent {
                         <p>We couldn't find any songs similar to this one. Maybe Last.fm forgot about it...</p>
                     </Modal.Content>
                     <Modal.Actions>
-                        <Button onClick={this.close}>
+                        <Button onClick={this.toggle}>
                             Ok.
                         </Button>
                     </Modal.Actions>
