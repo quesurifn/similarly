@@ -1,21 +1,29 @@
 require 'rspotify'
+require 'ostruct'
 
 class SpotifyController < ApplicationController
 
-  def create_playlist
-    spotify_user = RSpotify::User.new(request.env['omniauth.auth'])
-    tracks = params['tracks']
-    playlist_template = "Similarly To: #{params['original_song_name']}"
-    playlist = spotify_user.create_playlist!(playlist_template)
+  def callback
+    query = request.env['omniauth.params']
+    cookies[:query] = {value: "#{query['q']}", expires: 20.minutes}
+    cookies[:auth]  = {value: request.env['omniauth.auth'].to_json, expires: 20.minutes}
+    head :no_content
+  end
 
-    tracks_to_add = []
+
+  def create_playlist
+    auth_hash = JSON.parse(params['auth'])
+    tracks = params['tracks']
+    parsed_tracks = []
     tracks.each do |track|
-      query = "#{track['name']} #{track['artist']}"
-      tracks = RSpotify::Track.search(query)
-      tracks_to_add << tracks.first
+      parsed_tracks << OpenStruct.new(track)
     end
 
-    playlist.add_tracks!(tracks_to_add)
+    spotify_user = RSpotify::User.new(auth_hash)
+
+    playlist_template = "Similarly To: #{params['original_song_name']}"
+    playlist = spotify_user.create_playlist!(playlist_template)
+    playlist.add_tracks!(parsed_tracks)
   end
 
   def search

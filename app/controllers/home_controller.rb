@@ -5,6 +5,11 @@ class HomeController < ApplicationController
 
   def results
     encoded = params['query']
+
+    if encoded.nil?
+      raise :bad_request
+    end
+
     decoded = Base64.decode64(params['query'])
 
     @results = Query.where(query: encoded).first
@@ -25,8 +30,13 @@ class HomeController < ApplicationController
       # Cache indefinitely
       query = Query.create(query: encoded)
 
-      ## TODO FIND OR CREATE
-      query.songs.create(result)
+      @results.each do |song|
+        s = Song.find_or_create_by(song)
+        query.songs << s
+      end
+
+      @results = query.songs
+
     end
 
     @results

@@ -52,11 +52,17 @@ module HomeHelper
 
   def parse_spotify_results(obj)
     parsed_results = []
-    obj.each_with_index do |song, idx|
+    obj.each do |song|
+      if song.nil?
+        next
+      end
+
       song = song.as_json
       if song['artists']
         artists = song['artists'].map {|artist| artist['name'] }.join(',')
-        parsed_results << {title: song['name'], artist: artists, uri: song['uri'], preview_link: song['preview_url'], image_uri: song['album']['images'][1]['url'], explicit: song['explicit'], popularity: song['poplularity'] }
+        parsed_results << {title: song['name'], artist: artists, uri: song['uri'],
+                           preview_url: song['preview_url'], image_uri: song['album']['images'][1]['url'],
+                           explicit: song['explicit'], popularity: song['poplularity'].to_i, duration_ms: song['duration_ms'].to_i }
       end
     end
     parsed_results

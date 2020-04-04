@@ -15,7 +15,8 @@
     "react-dom": "^16.13.1",
     "react_ujs": "^2.6.1",
     "semantic-ui-react": "^0.88.2",
-    "turbolinks": "^5.2.0"
+    "turbolinks": "^5.2.0",
+    "wweb": "^1.2.0"
   },
   "version": "0.1.0",
   "devDependencies": {

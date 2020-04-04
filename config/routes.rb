@@ -4,8 +4,7 @@ Rails.application.routes.draw do
   root 'home#index'
   get  '/results', to: 'home#results'
 
-  get '/auth/spotify/callback', to: 'home#index'
   get '/spotify/search', to: 'spotify#search'
-  post '/spotify/add_playlist', to: 'spotify#create_playlist'
-
+  get '/auth/spotify/callback', to: 'spotify#callback'
+  post '/spotify/create_playlist', to: 'spotify#create_playlist'
 end

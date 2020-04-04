@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_30_005853) do
+ActiveRecord::Schema.define(version: 2020_04_02_232310) do
 
   create_table "queries", force: :cascade do |t|
     t.string "query"
@@ -34,8 +34,9 @@ ActiveRecord::Schema.define(version: 2020_03_30_005853) do
     t.boolean "explicit"
     t.integer "popularity"
     t.string "image_uri"
-    t.string "preview_link"
+    t.string "preview_url"
     t.string "uri"
+    t.integer "duration_ms"
   end
 
   create_table "users", force: :cascade do |t|
